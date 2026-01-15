@@ -237,13 +237,15 @@ for i, col in enumerate(colors):
 plt.title('Histogramme des couleurs de l\'image')
 plt.xlabel('Intensité des pixels')
 plt.ylabel('Nombre de pixels')
-plt.show()
+
 
 # Histogramme de l'image en utilisant Matplotlib
 # en niveau de gris
 plt.figure()
 plt.hist((cv.cvtColor(image, cv.COLOR_BGR2GRAY)).ravel(),256,[0,256]) 
-plt.show()
+plt.title('Histogramme en niveaux de gris de l\'image')
+plt.xlabel('Intensité des pixels')
+plt.ylabel('Nombre de pixels')
 
 # histogramme egalisation
 # doc : https://docs.opencv.org/4.x/d5/daf/tutorial_py_histogram_equalization.html
@@ -258,6 +260,10 @@ cv.imshow('Image après egalisation d\'histogramme avec CLAHE', cl1)
 imclahe = cv.imread("Image_apres_egalisation_histogramme_CLAHE.jpg")
 plt.figure()
 plt.hist(imclahe.ravel(),256,[0,256]) 
+plt.title('Histogramme de l\'image après egalisation d\'histogramme avec CLAHE')
+plt.xlabel('Intensité des pixels')
+plt.ylabel('Nombre de pixels')
+
 plt.show()
 
 
@@ -342,11 +348,15 @@ image_TFI_partR, image_TFI_partI = cv.split(image_TFI)  # séparation des 2 cana
 image_reconstruite = image_TFI_partR
 # on élimine les bordures noires ajoutées
 image_reconstruite = image_reconstruite[0:rows, 0:cols]
+
 # normalisation pour l'affichage
-cv.normalize(image_reconstruite, image_reconstruite, 0, 255, cv.NORM_MINMAX) # image reconstruite en nuance de gris
-cv.imshow('Image reconstruite après TFI', image_reconstruite)
+# cv.normalize(image_reconstruite, image_reconstruite, 0, 255, cv.NORM_MINMAX) # image reconstruite en nuance de gris
+# cv.imshow('Image reconstruite après TFI', image_reconstruite)
 
+# conversion pour affichage (SANS normalisation)
+image_reconstruite_aff = np.uint8(np.clip(image_reconstruite, 0, 255))
 
+cv.imshow('Image reconstruite après TFI', image_reconstruite_aff)
 
 
 
